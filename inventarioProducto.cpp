@@ -37,15 +37,22 @@ int registrar() {
 
 int mostrar() {
     int i = 1;
+    int valorTotal =0;
+
     for (aux = cab; aux != NULL; aux = aux->sig) {
         cout << "Ingreso " << i << ":" << endl;
         cout << "Codigo: " << aux->id << endl;
         cout << "Producto: " << aux->nombre << endl;
         cout << "Cantidad: " << aux->cantidad << endl;
         cout << "Precio: " << aux ->precio<<endl;
+       
+        int valorProducto = aux->cantidad * aux->precio;
+        cout << "Valor total del producto: " << valorProducto << endl;
+        valorTotal += valorProducto;
         i++;
     }
-    return 0;
+        cout << "Valor total del inventario: " << valorTotal << endl;
+       return 0;
     }
 
 int buscarPorId(int id) {
@@ -68,12 +75,37 @@ int buscarPorId(int id) {
     return 0;
 }
 
+int eliminarPorId(int id) {
+
+    Producto* anterior = NULL;
+    aux = cab;
+
+    while (aux != NULL && aux->id != id) {
+        anterior = aux;
+        aux = aux->sig;
+    }
+
+    if (aux != NULL) {
+        if (anterior != NULL)
+            anterior->sig = aux->sig;
+        else
+            cab = aux->sig;
+
+        free(aux);
+        cout << "Producto eliminado correctamente." << endl;
+    }
+    else {
+        cout << "Producto no encontrado. No se puede eliminar." << endl;
+    }
+    return 0;
+}
+
 int main() {
     setlocale(LC_ALL,""); 
     int opcion = 0;
     do {
-        // Menú de opciones
-        cout << "Menu:" << endl;
+        // Menú de opciones <3
+        cout << "***************************************  TIENDA EL TEMACH  *********************************************" << endl;
         cout << "1. Registrar Producto" << endl;
         cout << "2. Mostrar Inventario" << endl;
         cout << "3. Buscar Producto por ID" << endl;
@@ -100,6 +132,11 @@ int main() {
                 break;
             }
             case 4:
+               int idEliminar;
+               cout << "Ingrese el ID del producto a eliminar: ";
+               cin >> idEliminar;
+               eliminarPorId(idEliminar);
+               break;
                 break;
             case 5:
                 break;

@@ -8,9 +8,9 @@ struct Producto {
     char nombre[50];
     int cantidad;
     double precio;
-    Producto * sig;
-    };
-    Producto *cab = NULL, *aux = NULL, *aux2 = NULL; 
+    Producto *sig;
+};
+Producto *cab = NULL, *aux = NULL, *aux2 = NULL;
 
 int registrar() {
     aux = (struct Producto *)malloc(sizeof(struct Producto));
@@ -30,54 +30,44 @@ int registrar() {
         aux2 = cab;
         while (aux2->sig != NULL)
             aux2 = aux2->sig;
-        aux2->sig = aux; 
+        aux2->sig = aux;
     }
-     return 0;
-    }
+    return 0;
+}
 
 int mostrar() {
     int i = 1;
-    int valorTotal =0;
+    int valorTotal = 0;
 
     for (aux = cab; aux != NULL; aux = aux->sig) {
         cout << "Ingreso " << i << ":" << endl;
         cout << "Codigo: " << aux->id << endl;
         cout << "Producto: " << aux->nombre << endl;
         cout << "Cantidad: " << aux->cantidad << endl;
-        cout << "Precio: " << aux ->precio<<endl;
-       
+        cout << "Precio: " << aux->precio << endl;
+
         int valorProducto = aux->cantidad * aux->precio;
         cout << "Valor total del producto: " << valorProducto << endl;
         valorTotal += valorProducto;
         i++;
     }
-        cout << "Valor total del inventario: " << valorTotal << endl;
-       return 0;
-    }
+    cout << "Valor total del inventario: " << valorTotal << endl;
+    return 0;
+}
 
-int buscarPorId(int id) {
-    Producto* encontrado = NULL;
+Producto *buscarPorId(int id) {
+    Producto *encontrado = NULL;
     for (aux = cab; aux != NULL; aux = aux->sig) {
         if (aux->id == id) {
             encontrado = aux;
             break;
         }
     }
-    if (encontrado != NULL) {
-        cout << "Producto encontrado:" << endl;
-         cout << "codigo: " << encontrado->id << endl;
-        cout << "producto: " << encontrado->nombre << endl;
-        cout << "Cantidad: " << aux->cantidad << endl;
-        cout << "Precio: " << aux ->precio<<endl;
-    } else {
-        cout << "Paciente no encontrado." << endl;
-    }
-    return 0;
+    return encontrado;
 }
 
 int eliminarPorId(int id) {
-
-    Producto* anterior = NULL;
+    Producto *anterior = NULL;
     aux = cab;
 
     while (aux != NULL && aux->id != id) {
@@ -93,15 +83,39 @@ int eliminarPorId(int id) {
 
         free(aux);
         cout << "Producto eliminado correctamente." << endl;
-    }
-    else {
+    } else {
         cout << "Producto no encontrado. No se puede eliminar." << endl;
     }
     return 0;
 }
 
+int venderProducto(int id, int cantidad) {
+    Producto *producto = buscarPorId(id);
+    if (producto != NULL) {
+        if (producto->cantidad >= cantidad) {
+            producto->cantidad -= cantidad;
+            cout << "Venta realizada correctamente." << endl;
+        } else {
+            cout << "No hay suficiente cantidad en el inventario para completar la venta." << endl;
+        }
+    } else {
+        cout << "Producto no encontrado." << endl;
+    }
+    return 0;
+}
+
+int devolverProducto(int id, int cantidad) {
+    Producto* producto = buscarPorId(id);
+    if (producto != NULL) {
+        producto->cantidad += cantidad;
+        cout << "Devolución realizada correctamente." << endl;
+    } else {
+        cout << "Producto no encontrado." << endl;
+    }
+    return 0;
+}
 int main() {
-    setlocale(LC_ALL,""); 
+    setlocale(LC_ALL, "");
     int opcion = 0;
     do {
         // Menú de opciones <3
@@ -110,10 +124,9 @@ int main() {
         cout << "2. Mostrar Inventario" << endl;
         cout << "3. Buscar Producto por ID" << endl;
         cout << "4. Eliminar Producto" << endl;
-        cout << "5. Calcular Valor Total del Inventario" << endl;
-        cout << "6. Calcular Promedio de Precios" << endl;
-        cout << "7. Vender Productos" << endl;
-        cout << "8. Salir" << endl;
+        cout << "5. Vender Productos" << endl;
+        cout << "6. Devolucion de producto" << endl;
+        cout << "7. Salir" << endl;
         cout << "Ingrese la opción deseada: ";
         cin >> opcion;
 
@@ -128,32 +141,52 @@ int main() {
                 int idBuscar;
                 cout << "Ingrese el ID del producto a buscar: ";
                 cin >> idBuscar;
-                buscarPorId(idBuscar);
+                Producto *productoEncontrado = buscarPorId(idBuscar);
+                if (productoEncontrado != NULL) {
+                    cout << "Producto encontrado:" << endl;
+                    cout << "codigo: " << productoEncontrado->id << endl;
+                    cout << "producto: " << productoEncontrado->nombre << endl;
+                    cout << "Cantidad: " << productoEncontrado->cantidad << endl;
+                    cout << "Precio: " << productoEncontrado->precio << endl;
+                } else {
+                    cout << "Producto no encontrado." << endl;
+                }
                 break;
             }
-            case 4:
-               int idEliminar;
-               cout << "Ingrese el ID del producto a eliminar: ";
-               cin >> idEliminar;
-               eliminarPorId(idEliminar);
-               break;
+            case 4: {
+                int idEliminar;
+                cout << "Ingrese el ID del producto a eliminar: ";
+                cin >> idEliminar;
+                eliminarPorId(idEliminar);
                 break;
+            }
             case 5:
+                int idVenta, cantidadVenta;
+                cout << "Ingrese el ID del producto a vender: ";
+                cin >> idVenta;
+                cout << "Ingrese la cantidad a vender: ";
+                cin >> cantidadVenta;
+                venderProducto(idVenta, cantidadVenta);
                 break;
             case 6:
+                 int idDevolucion, cantidadDevolucion;
+                 cout << "Ingrese el ID del producto a devolver: ";
+                 cin >> idDevolucion;
+                 cout << "Ingrese la cantidad a devolver: ";
+                 cin >> cantidadDevolucion;
+                 devolverProducto(idDevolucion, cantidadDevolucion);
+
                 break;
             case 7:
-                break;
-            case 8:
-                cout <<"Gracias por usar nuestro sistema <3"<<endl;
+                cout << "Gracias por usar nuestro sistema <3" << endl;
                 break;
             default:
                 cout << "Opción no válida. Por favor, elija una opción válida." << endl;
                 break;
         }
-    } while (opcion != 8);
+    } while (opcion != 7);
 
-    Producto* temp;
+    Producto *temp;
     while (cab != NULL) {
         temp = cab;
         cab = cab->sig;

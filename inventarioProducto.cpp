@@ -158,7 +158,7 @@ int main() {
         cout << "6. Devolucion de producto" << endl;
         cout << "7. Mostrar ventas y ganancias" << endl;
         cout << "8. Salir" << endl;
-        cout << "Ingrese la opción deseada: ";
+        cout << "Ingrese la opcion deseada: ";
         cin >> opcion;
 
         switch (opcion) {

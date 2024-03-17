@@ -89,18 +89,36 @@ int eliminarPorId(int id) {
     return 0;
 }
 
-int venderProducto(int id, int cantidad) {
-    Producto *producto = buscarPorId(id);
-    if (producto != NULL) {
-        if (producto->cantidad >= cantidad) {
-            producto->cantidad -= cantidad;
-            cout << "Venta realizada correctamente." << endl;
+int venderProductos() {
+    int idProducto, cantidad;
+    char deseaContinuar;
+
+    do {
+        cout << "Ingrese el ID del producto a vender: ";
+        cin >> idProducto;
+
+        Producto* producto = buscarPorId(idProducto);
+
+        if (producto != NULL) {
+            cout << "Ingrese la cantidad a vender: ";
+            cin >> cantidad;
+
+            if (producto->cantidad >= cantidad && cantidad > 0) {
+                producto->cantidad -= cantidad;
+                cout << "Venta de " << cantidad << " " << producto->nombre << "(s) realizada correctamente." << endl;
+            } else if (cantidad <= 0) {
+                cout << "La cantidad ingresada no es válida." << endl;
+            } else {
+                cout << "No hay suficiente cantidad en el inventario para completar la venta de " << cantidad << " " << producto->nombre << "(s)." << endl;
+            }
         } else {
-            cout << "No hay suficiente cantidad en el inventario para completar la venta." << endl;
+            cout << "Producto no encontrado." << endl;
         }
-    } else {
-        cout << "Producto no encontrado." << endl;
-    }
+
+        cout << "¿Desea comprar otro producto? (s/n): ";
+        cin >> deseaContinuar;
+    } while (deseaContinuar == 's' || deseaContinuar == 'S');
+
     return 0;
 }
 
@@ -114,6 +132,7 @@ int devolverProducto(int id, int cantidad) {
     }
     return 0;
 }
+
 int main() {
     setlocale(LC_ALL, "");
     int opcion = 0;
@@ -161,12 +180,7 @@ int main() {
                 break;
             }
             case 5:
-                int idVenta, cantidadVenta;
-                cout << "Ingrese el ID del producto a vender: ";
-                cin >> idVenta;
-                cout << "Ingrese la cantidad a vender: ";
-                cin >> cantidadVenta;
-                venderProducto(idVenta, cantidadVenta);
+                venderProductos();
                 break;
             case 6:
                  int idDevolucion, cantidadDevolucion;

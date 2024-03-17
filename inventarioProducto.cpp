@@ -108,7 +108,7 @@ int venderProductos() {
 
             if (producto->cantidad >= cantidad && cantidad > 0) {
                 producto->cantidad -= cantidad;
-                cout << "Venta de " << cantidad << " " << producto->nombre << "(s) realizada correctamente." << endl;
+                cout << "Compra de " << cantidad << " " << producto->nombre << "(s) realizada correctamente." << endl;
                 gananciasTotales += (cantidad * producto->precio);
                 cantidadVendidaTotal += cantidad;
             } else if (cantidad <= 0) {

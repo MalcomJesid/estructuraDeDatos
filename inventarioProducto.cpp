@@ -24,7 +24,7 @@ int registrar() {
     cin >> aux->nombre;
     cout << "Ingrese la cantidad : ";
     cin >> aux->cantidad;
-    cout << "Ingrese la precio por unidad : ";
+    cout << "Ingrese el precio por unidad : ";
     cin >> aux->precio;
 
     if (cab == NULL)

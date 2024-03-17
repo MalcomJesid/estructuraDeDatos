@@ -97,13 +97,13 @@ int venderProductos() {
     char deseaContinuar;
 
     do {
-        cout << "Ingrese el ID del producto a vender: ";
+        cout << "Ingrese el ID del producto que desea comprar: ";
         cin >> idProducto;
 
         Producto* producto = buscarPorId(idProducto);
 
         if (producto != NULL) {
-            cout << "Ingrese la cantidad a vender: ";
+            cout << "Ingrese la cantidad de unidades que desea comprar: ";
             cin >> cantidad;
 
             if (producto->cantidad >= cantidad && cantidad > 0) {

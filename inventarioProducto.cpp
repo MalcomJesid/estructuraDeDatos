@@ -18,7 +18,7 @@ Producto *cab = NULL, *aux = NULL, *aux2 = NULL;
 int registrar() {
     aux = (struct Producto *)malloc(sizeof(struct Producto));
     aux->sig = NULL;
-    cout << "Ingrese un codigo del producto: ";
+    cout << "Ingrese el codigo del producto: ";
     cin >> aux->id;
     cout << "Ingrese el nombre del producto: ";
     cin >> aux->nombre;

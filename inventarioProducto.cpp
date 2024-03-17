@@ -12,6 +12,9 @@ struct Producto {
 };
 Producto *cab = NULL, *aux = NULL, *aux2 = NULL;
 
+    int gananciasTotales = 0;
+    int cantidadVendidaTotal = 0;
+
 int registrar() {
     aux = (struct Producto *)malloc(sizeof(struct Producto));
     aux->sig = NULL;
@@ -106,6 +109,8 @@ int venderProductos() {
             if (producto->cantidad >= cantidad && cantidad > 0) {
                 producto->cantidad -= cantidad;
                 cout << "Venta de " << cantidad << " " << producto->nombre << "(s) realizada correctamente." << endl;
+                gananciasTotales += (cantidad * producto->precio);
+                cantidadVendidaTotal += cantidad;
             } else if (cantidad <= 0) {
                 cout << "La cantidad ingresada no es válida." << endl;
             } else {
@@ -122,6 +127,11 @@ int venderProductos() {
     return 0;
 }
 
+void mostrarVentasYGanancias() {
+    cout << "Total de productos vendidos: " << cantidadVendidaTotal << endl;
+    cout << "Ganancias totales: $" << gananciasTotales << endl;
+}
+
 int devolverProducto(int id, int cantidad) {
     Producto* producto = buscarPorId(id);
     if (producto != NULL) {
@@ -132,6 +142,7 @@ int devolverProducto(int id, int cantidad) {
     }
     return 0;
 }
+
 
 int main() {
     setlocale(LC_ALL, "");
@@ -145,7 +156,8 @@ int main() {
         cout << "4. Eliminar Producto" << endl;
         cout << "5. Vender Productos" << endl;
         cout << "6. Devolucion de producto" << endl;
-        cout << "7. Salir" << endl;
+        cout << "7. Mostrar ventas y ganancias" << endl;
+        cout << "8. Salir" << endl;
         cout << "Ingrese la opción deseada: ";
         cin >> opcion;
 
@@ -192,13 +204,17 @@ int main() {
 
                 break;
             case 7:
+                 mostrarVentasYGanancias();
+                break;
+            case 8:
                 cout << "Gracias por usar nuestro sistema <3" << endl;
                 break;
+                
             default:
                 cout << "Opción no válida. Por favor, elija una opción válida." << endl;
                 break;
         }
-    } while (opcion != 7);
+    } while (opcion != 8);
 
     Producto *temp;
     while (cab != NULL) {

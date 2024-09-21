@@ -58,7 +58,7 @@ int main() {
         cout << "1. Registrar un Paciente" << endl;
         cout << "2. Mostrar todos los pacientes" << endl;
         cout << "3. Salir" << endl;
-        cout << "Elija una opción : ";
+        cout << "Elija una opcion : ";
         cin >> opcion;
 
         switch (opcion) {
@@ -72,7 +72,7 @@ int main() {
                 cout <<"Gracias por Usar nuestro sistemas <3"<<endl;
                 break;
             default:
-                cout << "Opción no válida. Por favor, elija una opción válida." << endl;
+                cout << "Opción no válida. Por favor, elija una opcion valida." << endl;
                 break;
         }
     } while (opcion != 3);
